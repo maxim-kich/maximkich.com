@@ -1,0 +1,31 @@
+# macOS and Windows metadata
+.DS_Store
+Thumbs.db
+
+# Local AI and project-agent tooling
+AGENTS.md
+CLAUDE.md
+.codex/
+.claude/
+.nimbalyst/
+graphify-out/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies, generated output, and caches
+node_modules/
+dist/
+coverage/
+.cache/
+.tmp/
+tmp/
+*.log
+
+# Editor files
+.idea/
+.vscode/
+*.swp
+*~

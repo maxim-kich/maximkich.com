@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/src/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/src/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/src/favicon-16x16.png">
+    <title>Maxim Kich — Product Designer</title>
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#111211" />
+    <meta
+      name="description"
+      content="Maxim Kich is a Head of UI and Product Designer crafting complex digital products, design systems, and experimental interfaces across enterprise, mobility, and health tech."
+    />
+    <link rel="canonical" href="https://maximkich.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Maxim Kich" />
+    <meta property="og:title" content="Maxim Kich — Product Designer" />
+    <meta
+      property="og:description"
+      content="Head of UI and Product Designer working on complex products, design systems, and experimental interfaces for enterprise, mobility, and health tech."
+    />
+    <meta property="og:url" content="https://maximkich.com/" />
+    <meta property="og:image" content="https://maximkich.com/src/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Maxim Kich — Product Designer" />
+    <meta
+      name="twitter:description"
+      content="Head of UI and Product Designer crafting complex digital products, systems, and experimental interfaces."
+    />
+    <meta name="twitter:image" content="https://maximkich.com/src/og.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Legal: always-available link (static DOM, no JS required) -->
+    <div class="row row--system legal-top" role="navigation" aria-label="Legal">
+      <div class="glyph">∙</div>
+      <a class="content link" href="/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
+    </div>
+    <main id="stream" aria-live="polite" aria-atomic="false"></main>
+    <img id="warpCircle" src="src/circle.svg" alt="" aria-hidden="true" />
+    <div id="rabbitTrophy" class="rabbit-trophy" aria-hidden="true">
+      <img src="src/rabbit.svg" alt="Rabbit slot 1" class="rabbit-trophy__icon rabbit-trophy__icon--locked" />
+      <img src="src/rabbit.svg" alt="Rabbit slot 2" class="rabbit-trophy__icon rabbit-trophy__icon--locked" />
+      <img src="src/rabbit.svg" alt="Rabbit slot 3" class="rabbit-trophy__icon rabbit-trophy__icon--locked" />
+      <img src="src/rabbit.svg" alt="Rabbit slot 4" class="rabbit-trophy__icon rabbit-trophy__icon--locked" />
+      <img src="src/rabbit.svg" alt="Rabbit slot 5" class="rabbit-trophy__icon rabbit-trophy__icon--locked" />
+    </div>
+    <div id="endgame-overlay" aria-hidden="true">
+      <canvas id="pixel-wipe-canvas" aria-hidden="true"></canvas>
+      <div id="white-screen" aria-hidden="true"></div>
+      <div id="endgame-content" aria-hidden="true">
+        <div id="endgame-illustration" class="endgame-illustration" aria-hidden="true"></div>
+        <div id="typewriter" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div id="mobile-banner" class="mobile-banner" aria-hidden="true">
+      <img src="src/rabbit.svg" alt="Rabbit icon" class="mobile-banner__icon" />
+      <span class="mobile-banner__text">Mini game works on desktop only. Please switch to a desktop device.</span>
+      <button type="button" class="mobile-banner__close" aria-label="Close banner">×</button>
+    </div>
+    <div id="resize-overlay" aria-hidden="true">
+      <div class="resize-overlay__content">
+        <p>Looks like the screen size changed or you’re on mobile.<br><br>No worries, reload the page or resize your window back to continue.</p>
+        <a id="resize-overlay-reload" class="link" href="#">Reload</a>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+    <!-- 100% privacy-first analytics -->
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <script>
+      if (window.DesktopApp) {
+        window.DesktopApp.start();
+      } else {
+        document.addEventListener('DOMContentLoaded', () => window.DesktopApp && window.DesktopApp.start(), { once: true });
+      }
+    </script>
+    <script>
+      (function () {
+        const overlay = document.getElementById('resize-overlay');
+        if (!overlay) return;
+        const button = document.getElementById('resize-overlay-reload');
+        if (!button) return;
+        const showOverlay = () => {
+          overlay.classList.add('resize-overlay-visible');
+          overlay.removeAttribute('aria-hidden');
+        };
+        const hideOverlay = () => {
+          overlay.classList.remove('resize-overlay-visible');
+          overlay.setAttribute('aria-hidden', 'true');
+        };
+        let baseWidth = window.innerWidth;
+        let overlayVisible = false;
+        window.addEventListener('resize', () => {
+          const width = window.innerWidth;
+          if (width === baseWidth) {
+            if (overlayVisible) {
+              overlayVisible = false;
+              hideOverlay();
+            }
+            return;
+          }
+          if (!overlayVisible) {
+            overlayVisible = true;
+            showOverlay();
+          }
+        });
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          window.location.reload();
+        });
+      }());
+    </script>
+  </body>
+</html>

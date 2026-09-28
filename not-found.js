@@ -15,7 +15,7 @@ const ASCII_NOT_FOUND = String.raw`██╗  ██╗  ██████╗  
      ██║ ╚██████╔╝      ██║
      ╚═╝  ╚═════╝       ╚═╝`;
 const MOBILE_BREAKPOINT = 768;
-const MOBILE_ASCII_404_IMAGE = 'img/mobile/ascii_404.svg';
+const MOBILE_ASCII_404_IMAGE = '/img/mobile/ascii_404.svg';
 
 const navigationEntry = performance && performance.getEntriesByType
   ? performance.getEntriesByType('navigation')[0] || null

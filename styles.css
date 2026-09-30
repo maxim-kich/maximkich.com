@@ -272,6 +272,61 @@ main {
   display: block;
 }
 
+.logo-rotating-word,
+.logo-strategist {
+  margin: 1em 0 0;
+  width: max-content;
+  max-width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62em;
+  line-height: 1.2;
+  white-space: pre;
+  background: linear-gradient(to top, var(--grad-1), var(--grad-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo-rotating-word {
+  perspective: 400px;
+}
+
+.logo-role--pending {
+  height: 0;
+  overflow: hidden;
+}
+
+.logo-role--revealing {
+  overflow: hidden;
+  transition: height 300ms steps(12, end);
+}
+
+.logo-strategist {
+  margin-top: 2.4em;
+}
+
+.logo-rotating-word__line {
+  display: block;
+  min-height: 1.2em;
+  transform-origin: center;
+  transform: rotateX(0);
+  transition: transform 90ms steps(3, end);
+}
+
+.logo-rotating-word__line.is-flipping {
+  transform: rotateX(-90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-rotating-word__line {
+    transition: none;
+  }
+
+  .logo-role--revealing {
+    transition: none;
+  }
+}
+
 .section-ascii {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.45rem;
@@ -1049,59 +1104,6 @@ body.endgame-lock {
   transition: transform 500ms ease-out, opacity 500ms ease-out;
 }
 
-.mobile-banner {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid var(--fg-muted);
-  border-radius: 6px;
-  background: var(--msg-bg);
-  z-index: 9100;
-  color: var(--fg);
-  opacity: 0;
-  transform: translateY(-16px);
-  transition: opacity 300ms ease, transform 300ms ease;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.mobile-banner.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  visibility: visible;
-}
-
-.mobile-banner__icon {
-  width: 32px;
-  height: 32px;
-  display: block;
-  align-self: center;
-}
-
-.mobile-banner__text {
-  flex: 1;
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
-
-.mobile-banner__close {
-  background: transparent;
-  border: none;
-  color: var(--fg);
-  font-size: 1.8rem;
-  line-height: 0.85;
-  cursor: pointer;
-  padding: 0;
-  align-self: flex-start;
-}
-
 .ascii-logo-mobile {
   display: flex;
   flex-direction: column;
@@ -1115,6 +1117,32 @@ body.endgame-lock {
   width: min(100%, 360px);
   height: auto;
   image-rendering: pixelated;
+}
+
+.ascii-logo-mobile__img--pending {
+  visibility: hidden;
+}
+
+.ascii-logo-mobile .logo-role {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logo-rotating-word--mobile,
+.logo-strategist--mobile {
+  margin: 0;
+  font-size: clamp(6px, 2vw, 8px);
+  line-height: 1.15;
+}
+
+.logo-rotating-word--mobile {
+  margin-top: 8px;
+}
+
+.logo-strategist--mobile {
+  margin-top: 6px;
+  letter-spacing: -0.3px;
 }
 
 @media (min-width: 768px) {

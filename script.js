@@ -60,31 +60,36 @@ if ('scrollRestoration' in history) {
 }
 
 const EXPERIENCE_CHUNKS = [
-  `Head of UI
-<span class="experience-meta">Jakala Germany GmbH — Hamburg, Germany — 2023–Present</span>
+  `Product & AI Strategist (B2B / SaaS)
+<span class="experience-meta">competitionline Verlags GmbH — Berlin, Germany — 2026–present</span>
 
-- Manage structural changes in the UI department, define hiring and career development for 14 designers.
+- Lead product design for a B2B SaaS platform (architecture and planning professionals).
+- Explore and introduce AI-based features and workflows to improve the product experience and internal processes.
+- Discover and implement potentials for AI-driven team workflows and processes.`,
+  `Head of UI (B2B / B2C)
+<span class="experience-meta">Jakala Germany GmbH — Hamburg, Germany — 2023–2026</span>
+
+- Managed structural changes in the UI department, define hiring and career development for 15 designers.
 - Improve resource planning and collaboration across design teams and promote the adoption of AI tools.
 - Work hands-on as a Product Designer on Hamburg’s public transport apps (hvv switch and hvv app).`,
   `Senior UI/UX Designer (Enterprise)
 <span class="experience-meta">WBS Training AG — Leipzig, Germany — 2022–2023</span>
 
 - Designed an internal ERP used to plan 6,000+ courses per year and support around 2,000 employees.
-- Created flows, wireframes and high-fidelity UI for scheduling, resource management and reporting.
 - Led a team of 3 designers, coordinating UX and UI work across the ERP product.`,
   `Senior Product Designer (B2C / B2B / SaaS)
 <span class="experience-meta">Andersen Labs — Odesa, Ukraine — 2021–2022</span>
 
-- Designed an Android app for a telehealth platform for patients aged 60+ and a web portal for doctors.
-- Mentored 4 designers across projects, providing feedback and improving design practices.`,
+- Led an Android app design for a telehealth platform for patients aged 60+ and a web portal for doctors.
+- Mentored 4 designers across projects, improving design practices.`,
   `CEO / Design Lead (B2B / B2C / SaaS)
 <span class="experience-meta">Nextpage Agency — Odesa, Ukraine — 2019–2021</span>
 
-- Led a 25-person team, increased project profitability by ~20% and delivered award-winning product designs.`,
+- Led a 25-person team, increased project profitability by ~20% and delivered award-winning products.`,
   `Director of Product Design / Co-Founder (B2C)
 <span class="experience-meta">Coliving Club — San Francisco — 2015–2018</span>
 
-- Co-founded a coliving product and designed management flows for 6 locations and a global marketplace concept.`,
+- Co-founded a coliving product and owned management and product flows for 6 locations and a global marketplace concept.`,
 ];
 const ASCII_LOGO = String.raw`███╗   ███╗  █████╗  ██╗  ██╗ ██╗ ███╗   ███╗
 ████╗ ████║ ██╔══██╗ ╚██╗██╔╝ ██║ ████╗ ████║
@@ -100,25 +105,37 @@ const ASCII_LOGO = String.raw`███╗   ███╗  █████╗  �
 ██║  ██╗ ██║ ╚██████╗ ██║  ██║
 ╚═╝  ╚═╝ ╚═╝  ╚═════╝ ╚═╝  ╚═╝`;
 
-const ASCII_LOGO_SUBTITLE_ONE = String.raw`██████╗  ██████╗   ██████╗  ██████╗  ██╗   ██╗  ██████╗ ████████╗
-██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔══██╗ ██║   ██║ ██╔════╝ ╚══██╔══╝
-██████╔╝ ██████╔╝ ██║   ██║ ██║  ██║ ██║   ██║ ██║         ██║
-██╔═══╝  ██╔══██╗ ██║   ██║ ██║  ██║ ██║   ██║ ██║         ██║
-██║      ██║  ██║ ╚██████╔╝ ██████╔╝ ╚██████╔╝ ╚██████╗    ██║
-╚═╝      ╚═╝  ╚═╝  ╚═════╝  ╚═════╝   ╚═════╝   ╚═════╝    ╚═╝`;
+const ASCII_LOGO_WORDS = [
+  { label: 'PRODUCT', ascii: String.raw`██████╗ ██████╗  ██████╗ ██████╗ ██╗   ██╗ ██████╗████████╗
+██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██║   ██║██╔════╝╚══██╔══╝
+██████╔╝██████╔╝██║   ██║██║  ██║██║   ██║██║        ██║
+██╔═══╝ ██╔══██╗██║   ██║██║  ██║██║   ██║██║        ██║
+██║     ██║  ██║╚██████╔╝██████╔╝╚██████╔╝╚██████╗   ██║
+╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝   ╚═╝` },
+  { label: 'DESIGN', ascii: String.raw`██████╗ ███████╗███████╗██╗ ██████╗ ███╗   ██╗
+██╔══██╗██╔════╝██╔════╝██║██╔════╝ ████╗  ██║
+██║  ██║█████╗  ███████╗██║██║  ███╗██╔██╗ ██║
+██║  ██║██╔══╝  ╚════██║██║██║   ██║██║╚██╗██║
+██████╔╝███████╗███████║██║╚██████╔╝██║ ╚████║
+╚═════╝ ╚══════╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝` },
+  { label: 'AI', ascii: String.raw` █████╗ ██╗
+██╔══██╗██║
+███████║██║
+██╔══██║██║
+██║  ██║██║
+╚═╝  ╚═╝╚═╝` },
+];
 
-const ASCII_LOGO_SUBTITLE_TWO = String.raw`██████╗  ███████╗ ███████╗ ██╗  ██████╗  ███╗   ██╗ ███████╗ ██████╗
-██╔══██╗ ██╔════╝ ██╔════╝ ██║ ██╔════╝  ████╗  ██║ ██╔════╝ ██╔══██╗
-██║  ██║ █████╗   ███████╗ ██║ ██║  ███╗ ██╔██╗ ██║ █████╗   ██████╔╝
-██║  ██║ ██╔══╝   ╚════██║ ██║ ██║   ██║ ██║╚██╗██║ ██╔══╝   ██╔══██╗
-██████╔╝ ███████╗ ███████║ ██║ ╚██████╔╝ ██║ ╚████║ ███████╗ ██║  ██║
-╚═════╝  ╚══════╝ ╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═╝`;
+const ASCII_LOGO_STRATEGIST = String.raw`███████╗████████╗██████╗  █████╗ ████████╗███████╗ ██████╗ ██╗███████╗████████╗
+██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝
+███████╗   ██║   ██████╔╝███████║   ██║   █████╗  ██║  ███╗██║███████╗   ██║
+╚════██║   ██║   ██╔══██╗██╔══██║   ██║   ██╔══╝  ██║   ██║██║╚════██║   ██║
+███████║   ██║   ██║  ██║██║  ██║   ██║   ███████╗╚██████╔╝██║███████║   ██║
+╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝`;
 
 const MOBILE_LOGO_IMAGES = [
   { src: 'img/mobile/ascii_maxim.svg', alt: 'ASCII Maxim' },
   { src: 'img/mobile/ascii_kich.svg', alt: 'ASCII Kich' },
-  { src: 'img/mobile/ascii_product.svg', alt: 'ASCII Product' },
-  { src: 'img/mobile/ascii_designer.svg', alt: 'ASCII Designer' },
 ];
 
 const ASCII_ABOUT_PHOTO = String.raw`
@@ -371,7 +388,7 @@ const PORTFOLIO_CASES = {
     title: 'hvv switch app',
     category: 'Public transportation',
     description: [
-      'As a Senior Product Designer I designed the public transport area of the hvv switch app—Hamburg’s mobility platform that blends public transport with shared mobility.',
+      'I designed the public transport area of the hvv switch app—Hamburg’s mobility platform that blends public transport with shared mobility.',
       'The role requires close collaboration with stakeholders from a publicly owned company, aligning high volumes of regulatory requirements with accessibility standards and a clear product vision.',
     ],
     images: ['./img/switch1.png'],
@@ -397,8 +414,8 @@ const PORTFOLIO_CASES = {
     title: 'ERP Application',
     category: 'Enterprise UX',
     description: [
-      'I led the end-to-end process from research and service blueprints to MVP prototypes, usability testing, and final UI delivery.',
-      'The design translated complex requirements into a core tool for staff and students, improving efficiency and reducing operational bottlenecks.',
+      'I led the end-to-end process from research and service blueprints to MVP prototypes, usability testing, scoping, planing and cross functional team work.',
+      'The result translated complex requirements into a core tool for staff and students, improving efficiency and reducing operational bottlenecks.',
     ],
     images: ['./img/erp1.png'],
   },
@@ -474,8 +491,7 @@ function scrollToBottom(force = false) {
 }
 
 function scrollDuringAsciiReveal() {
-  if (isBooting) return;
-  if (!isNearBottom()) return;
+  if (!isBooting && !isNearBottom()) return;
   const target = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
   requestAnimationFrame(() => {
     window.scrollTo({ top: target, behavior: 'auto' });
@@ -1354,6 +1370,7 @@ function revealAsciiBlocks({
   duration = 900,
   useRow = false,
   containerClass = 'section-ascii-block',
+  onCreated = null,
 } = {}) {
   if (!blocks.length) return Promise.resolve(null);
   return new Promise((resolve) => {
@@ -1391,6 +1408,8 @@ function revealAsciiBlocks({
         });
       });
     });
+
+    if (onCreated) onCreated(targetElement);
 
     if (!sequence.length) {
       resolve(hostRow || targetElement);
@@ -1959,50 +1978,129 @@ function isValidCommand(value) {
   return COMMANDS.includes(value);
 }
 
+function createRotatingLogoWord(content, isMobile) {
+  const word = document.createElement('pre');
+  word.className = `logo-rotating-word${isMobile ? ' logo-rotating-word--mobile' : ''}`;
+  word.setAttribute('aria-label', 'PRODUCT');
+  const lines = ASCII_LOGO_WORDS[0].ascii.split('\n');
+  const lineElements = lines.map((line) => {
+    const span = document.createElement('span');
+    span.className = 'logo-rotating-word__line';
+    span.setAttribute('aria-hidden', 'true');
+    span.textContent = line;
+    word.append(span);
+    return span;
+  });
+  content.append(word);
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let wordIndex = 0;
+    const rotate = () => {
+      if (!word.isConnected || !desktopRunning) return;
+      wordIndex = (wordIndex + 1) % ASCII_LOGO_WORDS.length;
+      const next = ASCII_LOGO_WORDS[wordIndex];
+      const nextLines = next.ascii.split('\n');
+      lineElements.forEach((lineElement, index) => {
+        trackTimeout(() => {
+          lineElement.classList.add('is-flipping');
+          trackTimeout(() => {
+            lineElement.style.transition = 'none';
+            lineElement.style.transform = 'rotateX(90deg)';
+            lineElement.textContent = nextLines[index] || '';
+            lineElement.classList.remove('is-flipping');
+            // Hold the new line edge-on for one frame before snapping it into place.
+            void lineElement.offsetHeight;
+            lineElement.style.transition = '';
+            lineElement.style.transform = '';
+            if (index === lineElements.length - 1) word.setAttribute('aria-label', next.label);
+          }, 90);
+        }, index * 95);
+      });
+      trackTimeout(rotate, 3000);
+    };
+    trackTimeout(rotate, 2600);
+  }
+  return word;
+}
+
+function appendLogoRole(content, isMobile) {
+  const role = document.createElement('div');
+  role.className = 'logo-role logo-role--pending';
+  createRotatingLogoWord(role, isMobile);
+  const strategist = document.createElement('pre');
+  strategist.className = `logo-strategist${isMobile ? ' logo-strategist--mobile' : ''}`;
+  strategist.textContent = ASCII_LOGO_STRATEGIST;
+  strategist.setAttribute('aria-label', 'STRATEGIST');
+  role.append(strategist);
+  content.append(role);
+  return role;
+}
+
+function revealLogoRole(role) {
+  role.classList.remove('logo-role--pending');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return Promise.resolve();
+  }
+  role.style.height = '0px';
+  role.classList.add('logo-role--revealing');
+  const height = role.scrollHeight;
+  // Commit the collapsed frame before expanding the role line by line.
+  void role.offsetHeight;
+  role.style.height = `${height}px`;
+  const followScroll = trackInterval(scrollDuringAsciiReveal, 30);
+  return waitAtLeast(300).then(() => {
+    clearTrackedInterval(followScroll);
+    role.classList.remove('logo-role--revealing');
+    role.style.height = '';
+  });
+}
+
 function revealAsciiLogo() {
   if (window.innerWidth < RABBIT_MIN_WIDTH) {
     return revealMobileLogoImages();
   }
+  let role;
   return revealAsciiBlocks({
-    blocks: [
-      { ascii: ASCII_LOGO, className: 'ascii' },
-      { ascii: ASCII_LOGO_SUBTITLE_ONE, className: 'logo-subtitle-ascii', leadingBlankLine: true },
-      { ascii: ASCII_LOGO_SUBTITLE_TWO, className: 'logo-subtitle-ascii', leadingBlankLine: true },
-    ],
-    duration: 600,
+    blocks: [{ ascii: ASCII_LOGO, className: 'ascii' }],
+    duration: 300,
     useRow: true,
     containerClass: '',
-  });
+    onCreated: (content) => {
+      role = appendLogoRole(content, false);
+    },
+  }).then((row) => revealLogoRole(role).then(() => row));
 }
 
 function revealMobileLogoImages() {
-  const duration = 900;
+  const duration = 350;
   const { row, content } = createRow('system', '');
   const wrapper = document.createElement('div');
   wrapper.className = 'ascii-logo-mobile';
   content.append(wrapper);
 
+  const images = MOBILE_LOGO_IMAGES.map(({ src, alt }) => {
+    const img = document.createElement('img');
+    img.className = 'ascii-logo-mobile__img ascii-logo-mobile__img--pending';
+    img.src = src;
+    img.alt = alt || 'ASCII logo';
+    img.width = 487;
+    img.height = 155;
+    img.draggable = false;
+    img.decoding = 'async';
+    wrapper.append(img);
+    return img;
+  });
+  const role = appendLogoRole(wrapper, true);
+
   return new Promise((resolve) => {
-    if (!MOBILE_LOGO_IMAGES.length) {
-      resolve(row);
-      return;
-    }
-    const step = duration / MOBILE_LOGO_IMAGES.length;
+    const step = duration / images.length;
     let index = 0;
     const revealNext = () => {
-      if (index >= MOBILE_LOGO_IMAGES.length) {
-        resolve(row);
+      if (index >= images.length) {
+        revealLogoRole(role).then(() => resolve(row));
         return;
       }
-      const { src, alt } = MOBILE_LOGO_IMAGES[index];
-      const img = document.createElement('img');
-      img.className = 'ascii-logo-mobile__img';
-      img.src = src;
-      img.alt = alt || 'ASCII logo';
-      img.draggable = false;
-      img.decoding = 'async';
-      img.loading = 'lazy';
-      wrapper.append(img);
+      images[index].classList.remove('ascii-logo-mobile__img--pending');
       scrollDuringAsciiReveal();
       index += 1;
       trackTimeout(revealNext, step);
@@ -2708,7 +2806,7 @@ function appendPortfolioMobileMessage() {
   return row;
 }
 
-function setupPrompt() {
+function setupPrompt({ scrollIntoView = true } = {}) {
   destroyCurrentPromptRow();
   const { row, content } = createRow('input', '>');
   const form = document.createElement('form');
@@ -2846,9 +2944,9 @@ function setupPrompt() {
             }).then(() => appendSectionAscii('/about')
             .then(() => appendAboutPhoto())
             .then(() => {
-              const aboutText = `Lead Product Designer with 10+ years of experience in B2B and B2C products across mobility, education and healthcare. I specialise in leading end-to-end product and UX work and guiding design teams in cross-functional environments.
+              const aboutText = `Product & AI Strategist with 10+ years of experience building B2B and B2C digital products across SaaS, mobility, healthcare and enterprise platforms.
 
-As a hands-on designer, I combine creativity, usability, and strategic thinking to craft products that drive business value and delight users. My passion lies in building scalable systems, mentoring design teams, and shaping digital experiences that balance innovation with accessibility.`;
+My background is in product design, UX research and design leadership, but my work sits at the intersection of product strategy, technology and business. I turn user and business problems into product opportunities, shape concepts and priorities, and work closely with cross-functional teams from discovery through delivery.`;
               const paragraphs = aboutText
                 .split(/\\n\\s*\\n/)
                 .map((p) => p.trim())
@@ -2893,7 +2991,7 @@ As a hands-on designer, I combine creativity, usability, and strategic thinking 
             steps: [
               'Deleting waiter experience',
               'Questioning my life choices',
-              'Ordering… Lieferando',
+              'Ordering… take out',
             ],
             duration: 1000,
           }).then(() => appendSectionAscii('/experience')
@@ -3111,12 +3209,13 @@ As a hands-on designer, I combine creativity, usability, and strategic thinking 
   autoResize(textarea);
   updateGhostState();
   setCaretVisible(document.activeElement === textarea);
-  scrollPromptIntoView(row, true);
+  if (scrollIntoView) scrollPromptIntoView(row, true);
 
   return row;
 }
 
 function runInitialFlow() {
+    const introStartedAt = performance.now();
     appendSystemLoadingWithAccordion({
       loadingText: 'Connecting to port:0000',
       doneText: 'Connection successful',
@@ -3125,9 +3224,9 @@ function runInitialFlow() {
         'Asking an AI what to do',
         'Still looking on Stack Overflow',
       ],
-      duration: 800,
+      duration: 300,
     })
-    .then(() => waitAtLeast(200))
+    .then(() => waitAtLeast(50))
     .then(() => appendSystemLoadingWithAccordion({
       loadingText: 'Starting Maxim Kich CLI',
       doneText: 'App started',
@@ -3136,7 +3235,7 @@ function runInitialFlow() {
         'Turning the app off',
         'Turning the app on',
       ],
-      duration: 600,
+      duration: 250,
     }))
     .then(() => revealAsciiLogo())
     .then(() => {
@@ -3149,36 +3248,13 @@ Tips for getting started:
       const mobileIntro = 'Welcome to my personal website. Here you can find information about me and my projects.';
       const welcomeRow = appendSystem(window.innerWidth < RABBIT_MIN_WIDTH ? mobileIntro : desktopTips);
       injectRabbitIntoRow('welcome', welcomeRow);
+      scrollDuringAsciiReveal();
+      const remaining = Math.max(0, 1600 - (performance.now() - introStartedAt));
       trackTimeout(() => {
         setupPrompt();
         isBooting = false;
-        trackTimeout(showMobileBanner, 200);
-      }, 50);
+      }, remaining);
     });
-}
-
-function showMobileBanner() {
-  if (!isMobileViewport()) return;
-  const banner = document.getElementById('mobile-banner');
-  if (!banner) return;
-  banner.classList.add('is-visible');
-  banner.setAttribute('aria-hidden', 'false');
-}
-
-function hideMobileBanner() {
-  const banner = document.getElementById('mobile-banner');
-  if (!banner) return;
-  banner.classList.remove('is-visible');
-  banner.setAttribute('aria-hidden', 'true');
-}
-
-function handleMobileBannerClose() {
-  const close = document.querySelector('#mobile-banner .mobile-banner__close');
-  if (!close) return;
-  close.addEventListener('click', (event) => {
-    event.preventDefault();
-    hideMobileBanner();
-  });
 }
 
 function resetCursorHide() {
@@ -3216,7 +3292,6 @@ function handleGlobalListeners() {
   addAppListener(document, 'click', clickHandler);
   addAppListener(document, 'mousemove', resetCursorHide);
   resetCursorHide();
-  handleMobileBannerClose();
 }
 
 window.addEventListener('resize', handleRabbitResponsiveChange);

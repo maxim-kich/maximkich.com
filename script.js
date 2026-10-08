@@ -1979,14 +1979,33 @@ function isValidCommand(value) {
 }
 
 function createRotatingLogoWord(content, isMobile) {
-  const word = document.createElement('pre');
-  word.className = `logo-rotating-word${isMobile ? ' logo-rotating-word--mobile' : ''}`;
+  const word = isMobile
+    ? document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    : document.createElement('pre');
+  word.setAttribute('class', `logo-rotating-word${isMobile ? ' logo-rotating-word--mobile' : ''}`);
   word.setAttribute('aria-label', 'PRODUCT');
+  if (isMobile) word.setAttribute('role', 'img');
   const lines = ASCII_LOGO_WORDS[0].ascii.split('\n');
-  const lineElements = lines.map((line) => {
-    const span = document.createElement('span');
-    span.className = 'logo-rotating-word__line';
+  const setMobileWidth = (rows) => {
+    if (!isMobile) return;
+    const columns = Math.max(...rows.map((line) => line.length));
+    word.setAttribute('viewBox', `0 0 ${columns * 8} 72`);
+    word.style.width = `${(columns / 79) * 100}%`;
+    word.style.maxWidth = `${columns * 8}px`;
+  };
+  setMobileWidth(lines);
+  const lineElements = lines.map((line, index) => {
+    const span = isMobile
+      ? document.createElementNS('http://www.w3.org/2000/svg', 'text')
+      : document.createElement('span');
+    span.setAttribute('class', 'logo-rotating-word__line');
     span.setAttribute('aria-hidden', 'true');
+    if (isMobile) {
+      span.setAttribute('x', '0');
+      span.setAttribute('y', String((index + 1) * 12));
+      span.setAttribute('textLength', String(line.length * 8));
+      span.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+    }
     span.textContent = line;
     word.append(span);
     return span;
@@ -2000,6 +2019,7 @@ function createRotatingLogoWord(content, isMobile) {
       wordIndex = (wordIndex + 1) % ASCII_LOGO_WORDS.length;
       const next = ASCII_LOGO_WORDS[wordIndex];
       const nextLines = next.ascii.split('\n');
+      setMobileWidth(nextLines);
       lineElements.forEach((lineElement, index) => {
         trackTimeout(() => {
           lineElement.classList.add('is-flipping');
@@ -2007,6 +2027,7 @@ function createRotatingLogoWord(content, isMobile) {
             lineElement.style.transition = 'none';
             lineElement.style.transform = 'rotateX(90deg)';
             lineElement.textContent = nextLines[index] || '';
+            if (isMobile) lineElement.setAttribute('textLength', String((nextLines[index] || '').length * 8));
             lineElement.classList.remove('is-flipping');
             // Hold the new line edge-on for one frame before snapping it into place.
             void lineElement.offsetHeight;
@@ -2027,9 +2048,26 @@ function appendLogoRole(content, isMobile) {
   const role = document.createElement('div');
   role.className = 'logo-role logo-role--pending';
   createRotatingLogoWord(role, isMobile);
-  const strategist = document.createElement('pre');
-  strategist.className = `logo-strategist${isMobile ? ' logo-strategist--mobile' : ''}`;
-  strategist.textContent = ASCII_LOGO_STRATEGIST;
+  const strategist = isMobile
+    ? document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    : document.createElement('pre');
+  strategist.setAttribute('class', `logo-strategist${isMobile ? ' logo-strategist--mobile' : ''}`);
+  if (isMobile) {
+    const lines = ASCII_LOGO_STRATEGIST.split('\n');
+    strategist.setAttribute('role', 'img');
+    strategist.setAttribute('viewBox', `0 0 ${Math.max(...lines.map((line) => line.length)) * 8} 72`);
+    lines.forEach((line, index) => {
+      const row = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      row.setAttribute('x', '0');
+      row.setAttribute('y', String((index + 1) * 12));
+      row.setAttribute('textLength', String(line.length * 8));
+      row.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+      row.textContent = line;
+      strategist.append(row);
+    });
+  } else {
+    strategist.textContent = ASCII_LOGO_STRATEGIST;
+  }
   strategist.setAttribute('aria-label', 'STRATEGIST');
   role.append(strategist);
   content.append(role);

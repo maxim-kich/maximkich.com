@@ -1978,35 +1978,87 @@ function isValidCommand(value) {
   return COMMANDS.includes(value);
 }
 
+const ASCII_SVG_NS = 'http://www.w3.org/2000/svg';
+
+function createMobileAsciiSvg(label) {
+  const svg = document.createElementNS(ASCII_SVG_NS, 'svg');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', label);
+  const gradientId = `mobile-ascii-gradient-${Math.random().toString(36).slice(2)}`;
+  const defs = document.createElementNS(ASCII_SVG_NS, 'defs');
+  const gradient = document.createElementNS(ASCII_SVG_NS, 'linearGradient');
+  gradient.setAttribute('id', gradientId);
+  gradient.setAttribute('gradientUnits', 'userSpaceOnUse');
+  gradient.setAttribute('x1', '0');
+  gradient.setAttribute('y1', '72');
+  gradient.setAttribute('x2', '0');
+  gradient.setAttribute('y2', '0');
+  for (const [offset, color] of [['0%', '#274033'], ['100%', '#48765E']]) {
+    const stop = document.createElementNS(ASCII_SVG_NS, 'stop');
+    stop.setAttribute('offset', offset);
+    stop.setAttribute('stop-color', color);
+    gradient.append(stop);
+  }
+  defs.append(gradient);
+  svg.append(defs);
+  svg.style.fill = `url(#${gradientId})`;
+  svg.style.stroke = `url(#${gradientId})`;
+  // Both mobile lines share one grid, so the symbol size never changes mid-flip.
+  svg.setAttribute('viewBox', '0 0 632 72');
+  return svg;
+}
+
+function drawMobileAsciiRow(group, line, index) {
+  const blocks = [];
+  const strokes = [];
+  for (let column = 0; column < line.length; column += 1) {
+    const x = column * 8;
+    const y = index * 12;
+    switch (line[column]) {
+      case '█': blocks.push(`M${x} ${y + 1}h7.5v10H${x}z`); break;
+      case '║': strokes.push(`M${x + 2} ${y}v12m2-12v12`); break;
+      case '═': strokes.push(`M${x} ${y + 4}h8m-8 2h8`); break;
+      case '╔': strokes.push(`M${x + 1} ${y + 12}V${y + 3}h7m-5 9V${y + 5}h5`); break;
+      case '╗': strokes.push(`M${x} ${y + 3}h7v9m-7-7h5v7`); break;
+      case '╚': strokes.push(`M${x + 1} ${y}v11h7m-5-11v9h5`); break;
+      case '╝': strokes.push(`M${x + 7} ${y}v11h-7m5-11v9h-5`); break;
+      default: break;
+    }
+  }
+  group.replaceChildren();
+  if (blocks.length) {
+    const path = document.createElementNS(ASCII_SVG_NS, 'path');
+    path.setAttribute('d', blocks.join(''));
+    path.setAttribute('stroke', 'none');
+    group.append(path);
+  }
+  if (strokes.length) {
+    const path = document.createElementNS(ASCII_SVG_NS, 'path');
+    path.setAttribute('d', strokes.join(''));
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-width', '0.9');
+    group.append(path);
+  }
+}
+
 function createRotatingLogoWord(content, isMobile) {
   const word = isMobile
-    ? document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    ? createMobileAsciiSvg('PRODUCT')
     : document.createElement('pre');
   word.setAttribute('class', `logo-rotating-word${isMobile ? ' logo-rotating-word--mobile' : ''}`);
   word.setAttribute('aria-label', 'PRODUCT');
-  if (isMobile) word.setAttribute('role', 'img');
   const lines = ASCII_LOGO_WORDS[0].ascii.split('\n');
-  const setMobileWidth = (rows) => {
-    if (!isMobile) return;
-    const columns = Math.max(...rows.map((line) => line.length));
-    word.setAttribute('viewBox', `0 0 ${columns * 8} 72`);
-    word.style.width = `${(columns / 79) * 100}%`;
-    word.style.maxWidth = `${columns * 8}px`;
-  };
-  setMobileWidth(lines);
   const lineElements = lines.map((line, index) => {
     const span = isMobile
-      ? document.createElementNS('http://www.w3.org/2000/svg', 'text')
+      ? document.createElementNS(ASCII_SVG_NS, 'g')
       : document.createElement('span');
     span.setAttribute('class', 'logo-rotating-word__line');
     span.setAttribute('aria-hidden', 'true');
     if (isMobile) {
-      span.setAttribute('x', '0');
-      span.setAttribute('y', String((index + 1) * 12));
-      span.setAttribute('textLength', String(line.length * 8));
-      span.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+      drawMobileAsciiRow(span, line, index);
+    } else {
+      span.textContent = line;
     }
-    span.textContent = line;
     word.append(span);
     return span;
   });
@@ -2019,15 +2071,14 @@ function createRotatingLogoWord(content, isMobile) {
       wordIndex = (wordIndex + 1) % ASCII_LOGO_WORDS.length;
       const next = ASCII_LOGO_WORDS[wordIndex];
       const nextLines = next.ascii.split('\n');
-      setMobileWidth(nextLines);
       lineElements.forEach((lineElement, index) => {
         trackTimeout(() => {
           lineElement.classList.add('is-flipping');
           trackTimeout(() => {
             lineElement.style.transition = 'none';
             lineElement.style.transform = 'rotateX(90deg)';
-            lineElement.textContent = nextLines[index] || '';
-            if (isMobile) lineElement.setAttribute('textLength', String((nextLines[index] || '').length * 8));
+            if (isMobile) drawMobileAsciiRow(lineElement, nextLines[index] || '', index);
+            else lineElement.textContent = nextLines[index] || '';
             lineElement.classList.remove('is-flipping');
             // Hold the new line edge-on for one frame before snapping it into place.
             void lineElement.offsetHeight;
@@ -2049,20 +2100,14 @@ function appendLogoRole(content, isMobile) {
   role.className = 'logo-role logo-role--pending';
   createRotatingLogoWord(role, isMobile);
   const strategist = isMobile
-    ? document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    ? createMobileAsciiSvg('STRATEGIST')
     : document.createElement('pre');
   strategist.setAttribute('class', `logo-strategist${isMobile ? ' logo-strategist--mobile' : ''}`);
   if (isMobile) {
     const lines = ASCII_LOGO_STRATEGIST.split('\n');
-    strategist.setAttribute('role', 'img');
-    strategist.setAttribute('viewBox', `0 0 ${Math.max(...lines.map((line) => line.length)) * 8} 72`);
     lines.forEach((line, index) => {
-      const row = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      row.setAttribute('x', '0');
-      row.setAttribute('y', String((index + 1) * 12));
-      row.setAttribute('textLength', String(line.length * 8));
-      row.setAttribute('lengthAdjust', 'spacingAndGlyphs');
-      row.textContent = line;
+      const row = document.createElementNS(ASCII_SVG_NS, 'g');
+      drawMobileAsciiRow(row, line, index);
       strategist.append(row);
     });
   } else {

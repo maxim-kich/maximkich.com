@@ -1136,16 +1136,12 @@ body.endgame-lock {
   width: 100%;
   height: auto;
   max-width: 100%;
-  overflow: visible;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  fill: var(--grad-1);
+  overflow: hidden;
 }
 
 .logo-rotating-word--mobile {
   margin-top: 8px;
-  max-width: 472px;
+  max-width: 632px;
 }
 
 .logo-strategist--mobile {

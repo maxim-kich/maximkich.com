@@ -1979,6 +1979,7 @@ function isValidCommand(value) {
 }
 
 const ASCII_SVG_NS = 'http://www.w3.org/2000/svg';
+const MOBILE_ASCII_HEIGHT_SCALE = 1.6;
 
 function createMobileAsciiSvg(label) {
   const svg = document.createElementNS(ASCII_SVG_NS, 'svg');
@@ -1990,7 +1991,7 @@ function createMobileAsciiSvg(label) {
   gradient.setAttribute('id', gradientId);
   gradient.setAttribute('gradientUnits', 'userSpaceOnUse');
   gradient.setAttribute('x1', '0');
-  gradient.setAttribute('y1', '72');
+  gradient.setAttribute('y1', String(72 * MOBILE_ASCII_HEIGHT_SCALE));
   gradient.setAttribute('x2', '0');
   gradient.setAttribute('y2', '0');
   for (const [offset, color] of [['0%', '#274033'], ['100%', '#48765E']]) {
@@ -2004,7 +2005,10 @@ function createMobileAsciiSvg(label) {
   svg.style.fill = `url(#${gradientId})`;
   svg.style.stroke = `url(#${gradientId})`;
   // Both mobile lines share one grid, so the symbol size never changes mid-flip.
-  svg.setAttribute('viewBox', '0 0 632 72');
+  svg.setAttribute('viewBox', `0 0 632 ${72 * MOBILE_ASCII_HEIGHT_SCALE}`);
+  const art = document.createElementNS(ASCII_SVG_NS, 'g');
+  art.setAttribute('transform', `scale(1 ${MOBILE_ASCII_HEIGHT_SCALE})`);
+  svg.append(art);
   return svg;
 }
 
@@ -2059,7 +2063,8 @@ function createRotatingLogoWord(content, isMobile) {
     } else {
       span.textContent = line;
     }
-    word.append(span);
+    if (isMobile) word.lastElementChild.append(span);
+    else word.append(span);
     return span;
   });
   content.append(word);
@@ -2108,7 +2113,7 @@ function appendLogoRole(content, isMobile) {
     lines.forEach((line, index) => {
       const row = document.createElementNS(ASCII_SVG_NS, 'g');
       drawMobileAsciiRow(row, line, index);
-      strategist.append(row);
+      strategist.lastElementChild.append(row);
     });
   } else {
     strategist.textContent = ASCII_LOGO_STRATEGIST;

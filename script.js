@@ -1979,7 +1979,18 @@ function isValidCommand(value) {
 }
 
 const ASCII_SVG_NS = 'http://www.w3.org/2000/svg';
-const MOBILE_ASCII_HEIGHT_SCALE = 1.6;
+const MOBILE_ASCII_CELL_WIDTH = 10.793;
+const MOBILE_ASCII_CELL_HEIGHT = 27;
+// Glyph outlines copied from the existing MAXIM/KICH mobile SVG artwork.
+const MOBILE_ASCII_GLYPHS = {
+  '█': 'M0 25.4V1.64H11.16V25.4H0Z',
+  '╗': 'M6.48 25.4V12.44H-0.18V10.64H8.28V25.4H6.48ZM2.88 25.4V16.04H-0.18V14.24H4.68V25.4H2.88Z',
+  '║': 'M6.48 25.4V1.64H8.28V25.4H6.48ZM2.88 25.4V1.64H4.68V25.4H2.88Z',
+  '╔': 'M2.88 25.4V10.64H11.34V12.44H4.68V25.4H2.88ZM6.48 25.4V14.24H11.34V16.04H8.28V25.4H6.48Z',
+  '═': 'M-0.18 12.44V10.64H11.34V12.44H-0.18ZM-0.18 16.04V14.24H11.34V16.04H-0.18Z',
+  '╚': 'M2.88 16.04V1.64H4.68V14.24H11.34V16.04H2.88ZM6.48 12.44V1.64H8.28V10.64H11.34V12.44H6.48Z',
+  '╝': 'M-0.18 16.04V14.24H6.48V1.64H8.28V16.04H-0.18ZM-0.18 12.44V10.64H2.88V1.64H4.68V12.44H-0.18Z',
+};
 
 function createMobileAsciiSvg(label) {
   const svg = document.createElementNS(ASCII_SVG_NS, 'svg');
@@ -1990,10 +2001,10 @@ function createMobileAsciiSvg(label) {
   const gradient = document.createElementNS(ASCII_SVG_NS, 'linearGradient');
   gradient.setAttribute('id', gradientId);
   gradient.setAttribute('gradientUnits', 'userSpaceOnUse');
-  gradient.setAttribute('x1', '0');
-  gradient.setAttribute('y1', String(72 * MOBILE_ASCII_HEIGHT_SCALE));
-  gradient.setAttribute('x2', '0');
-  gradient.setAttribute('y2', '0');
+  gradient.setAttribute('x1', '351');
+  gradient.setAttribute('y1', '155');
+  gradient.setAttribute('x2', '335');
+  gradient.setAttribute('y2', '12');
   for (const [offset, color] of [['0%', '#274033'], ['100%', '#48765E']]) {
     const stop = document.createElementNS(ASCII_SVG_NS, 'stop');
     stop.setAttribute('offset', offset);
@@ -2003,44 +2014,29 @@ function createMobileAsciiSvg(label) {
   defs.append(gradient);
   svg.append(defs);
   svg.style.fill = `url(#${gradientId})`;
-  svg.style.stroke = `url(#${gradientId})`;
   // Both mobile lines share one grid, so the symbol size never changes mid-flip.
-  svg.setAttribute('viewBox', `0 0 632 ${72 * MOBILE_ASCII_HEIGHT_SCALE}`);
+  svg.setAttribute('viewBox', `0 0 ${79 * MOBILE_ASCII_CELL_WIDTH} 155`);
   const art = document.createElementNS(ASCII_SVG_NS, 'g');
-  art.setAttribute('transform', `scale(1 ${MOBILE_ASCII_HEIGHT_SCALE})`);
   svg.append(art);
   return svg;
 }
 
 function drawMobileAsciiRow(group, line, index) {
-  const blocks = [];
-  const strokes = [];
+  const outlines = [];
   for (let column = 0; column < line.length; column += 1) {
-    const x = column * 8;
-    const y = index * 12;
-    switch (line[column]) {
-      case '█': blocks.push(`M${x} ${y + 1}h7.5v10H${x}z`); break;
-      case '║': strokes.push(`M${x + 2} ${y}v12m2-12v12`); break;
-      case '═': strokes.push(`M${x} ${y + 4}h8m-8 2h8`); break;
-      case '╔': strokes.push(`M${x + 1} ${y + 12}V${y + 3}h7m-5 9V${y + 5}h5`); break;
-      case '╗': strokes.push(`M${x} ${y + 3}h7v9m-7-7h5v7`); break;
-      case '╚': strokes.push(`M${x + 1} ${y}v11h7m-5-11v9h5`); break;
-      case '╝': strokes.push(`M${x + 7} ${y}v11h-7m5-11v9h-5`); break;
-      default: break;
-    }
+    const glyph = MOBILE_ASCII_GLYPHS[line[column]];
+    if (!glyph) continue;
+    const x = column * MOBILE_ASCII_CELL_WIDTH;
+    const y = index * MOBILE_ASCII_CELL_HEIGHT;
+    outlines.push(glyph.replace(/M(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)|([HV])(-?\d+(?:\.\d+)?)/g,
+      (match, moveX, moveY, axis, value) => axis
+        ? `${axis}${Number(value) + (axis === 'H' ? x : y)}`
+        : `M${Number(moveX) + x} ${Number(moveY) + y}`));
   }
   group.replaceChildren();
-  if (blocks.length) {
+  if (outlines.length) {
     const path = document.createElementNS(ASCII_SVG_NS, 'path');
-    path.setAttribute('d', blocks.join(''));
-    path.setAttribute('stroke', 'none');
-    group.append(path);
-  }
-  if (strokes.length) {
-    const path = document.createElementNS(ASCII_SVG_NS, 'path');
-    path.setAttribute('d', strokes.join(''));
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke-width', '0.9');
+    path.setAttribute('d', outlines.join(''));
     group.append(path);
   }
 }
